@@ -23,9 +23,22 @@ app.get("/", async (req, res) => {
   try {
     const result = await axios.get("https://v2.jokeapi.dev/joke/Any");
     res.render("index.ejs", {
-      joke: result.data.joke,
+      joke: result.data.joke || "Congested API, please try again later",
       cat: result.data.category,
     });
+  } catch (error) {
+    console.log(error.response.data);
+    res.status(500);
+  }
+});
+
+app.get("/joke", async (req, res) => {
+  try {
+    const result = await axios.get("https://v2.jokeapi.dev/joke/Any");
+    res.json({ 
+      joke: result.data.joke || "Congested API, please try again later", 
+      cat: result.data.category 
+     });
   } catch (error) {
     console.log(error.response.data);
     res.status(500);

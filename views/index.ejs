@@ -19,12 +19,18 @@
     </p>
   </div>
   <p class="user">
-    <%= cat %>
+    Category: <%= cat %>
   </p>
   <button class="get-joke">Get Joke</button>
 <script>
   document.querySelector('.get-joke').addEventListener('click', function() {
-    location.reload();
+  fetch('/joke')
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('.card p').textContent = data.joke;
+      document.querySelector('.user').textContent = `Category: ${data.cat}`;
+    })
+    .catch(error => console.error('Error fetching joke:', error));
   });
 </script>
 </body>
